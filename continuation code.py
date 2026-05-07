@@ -1,4 +1,4 @@
-# CONTINUATION CODE 
+
 # Add student
 def add_student():
     name = input("Enter student name: ").strip()
