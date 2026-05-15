@@ -35,7 +35,7 @@ def display_menu():
 
     print("4. Delete Student")
 
-    print("5. Exit")
+    print("5. Exit!!")
 
 
 
@@ -155,7 +155,7 @@ def main():
 
         display_menu()
 
-        choice = input("Choose your option: ").strip()
+        choice = input("ENTER A CHOICE : ").strip()
 
 
 
@@ -177,7 +177,7 @@ def main():
 
         elif choice == "5":
 
-            print("Exiting program... Thanks for using the System!")
+            print("Exiting program... THANK YOU!")
 
             break
 
