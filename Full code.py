@@ -1,6 +1,5 @@
 # Full code
 # Student Information System
-# Requirements: Functions, Arrays, Looping Menu, Input Validation, Clean Code
 
 import json
 students = []  # Array to store student records
