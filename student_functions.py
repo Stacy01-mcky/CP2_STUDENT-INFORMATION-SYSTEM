@@ -1,3 +1,4 @@
+students = []  # Array to store student records
 # Display menu
 def display_menu():
     print("----------Student Information System--------------------")
