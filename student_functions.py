@@ -1,21 +1,6 @@
-# ---------- Constants ----------
-FILE_NAME = "students.txt"
-students = []
-# Display menu
-def display_menu():
-    print("----------Student Information System--------------------")
-    print("--------------------------------------------------------")
-    print("1. Add Student")
-    print("2. View Students")
-    print("3. Search Student")
-    print("4. Delete Student")
-    print("5. Exit!!")
-    print("--------------------------------------------------------")
-
-import re
-from datetime import datetime
-
-# Add student
+import re from datetime
+import datetime
+# ---------- Core Operations ----------
 def add_student():
     name = input("Enter student name : ").strip()
     studentid = input("Enter student ID : ").strip()
@@ -23,36 +8,14 @@ def add_student():
     birthday = input("Enter student birthday (YYYY-MM-DD): ").strip()
     course = input("Enter student course: ").strip()
 
-    # Regex for name (letters and spaces only)
-    valid_name_pattern = re.compile(r'^[A-Za-z ]+$')
-    # Regex for course (letters, numbers, and spaces allowed)
-    valid_course_pattern = re.compile(r'^[A-Za-z0-9 ]+$')
-
-    # Validate student ID (only digits)
     if not studentid.isdigit():
         raise ValueError("Error: Student ID must contain only numbers.")
-
-    # Validate age (only digits)
     if not age.isdigit():
         raise ValueError("Error: Age must contain only numbers.")
 
-    # Validate name (only letters and spaces)
-    if not valid_name_pattern.match(name):
-        raise ValueError("Error: Name must contain only letters and spaces.")
-
-    # Validate course (letters, numbers, spaces)
-    if not valid_course_pattern.match(course):
-        raise ValueError("Error: Course contains invalid characters (only letters, numbers, and spaces allowed).")
-
-    # Validate birthday: only numbers and dashes allowed
-    if not re.match(r'^\d{4}-\d{2}-\d{2}$', birthday):
-        raise ValueError("Error: Birthday must contain only numbers and dashes in YYYY-MM-DD format.")
-
-    # Check if it's a real date (rejects impossible dates like 2026-02-30)
-    try:
-        datetime.strptime(birthday, "%Y-%m-%d")
-    except ValueError:
-        raise ValueError("Error: Birthday is not a valid calendar date.")
+    validate_name(name)
+    validate_course(course)
+    validate_date(birthday)
 
     student = {
         "name": name,
@@ -63,11 +26,8 @@ def add_student():
     }
     students.append(student)
     save_students()
-    print(f"Student {name} added successfully!")
+    print(f" Student {name} added successfully!")
 
-
-
-# View all students
 def view_students():
     if not students:
         print("No student records found.")
@@ -76,27 +36,74 @@ def view_students():
     for i, student in enumerate(students, start=1):
         print(f"{i}. Name: {student['name']}, ID: {student['studentid']}, Age: {student['age']}, Birthday: {student['birthday']}, Course: {student['course']}")
 
-
-# Search student by name
 def search_student():
-    search_name = input("Enter student name to search: ").strip()
-    found = False
-    for student in students:
-        if student["name"].lower() == search_name.lower():
-            print(f"Found: Name: {student['name']}, ID: {student['studentid']}, Age: {student['age']}, Birthday: {student['birthday']}, Course: {student['course']}")
-            found = True
-            break
-    if not found:
+    search_term = input("Search by (1) Name or (2) ID: ").strip()
+    if search_term == "1":
+        search_name = input("Enter student name: ").strip()
+        results = [s for s in students if s["name"].lower() == search_name.lower()]
+    elif search_term == "2":
+        search_id = input("Enter student ID: ").strip()
+        results = [s for s in students if str(s["studentid"]) == search_id]
+    else:
+        print("Invalid choice.")
+        return
+
+    if results:
+        for s in results:
+            print(f"Found: {s}")
+    else:
         print("Student not found.")
 
-
-# Delete student by name
 def delete_student():
-    delete_name = input("Enter student name to delete: ").strip()
+    delete_id = input("Enter student ID to delete: ").strip()
+    if not delete_id.isdigit():
+        print("Invalid ID.")
+        return
     for student in students:
-        if student["name"].lower() == delete_name.lower():
-            students.remove(student)
-            save_students()
-            print(f"Student {delete_name} deleted successfully!")
+        if student["studentid"] == int(delete_id):
+            confirm = input(f"Are you sure you want to delete {student['name']}? (y/n): ").strip().lower()
+            if confirm == "y":
+                students.remove(student)
+                save_students()
+                print(f" Student {student['name']} deleted successfully!")
             return
     print("Student not found.")
+
+def update_student():
+    update_id = input("Enter student ID to update: ").strip()
+    if not update_id.isdigit():
+        print("Invalid ID.")
+        return
+    for student in students:
+        if student["studentid"] == int(update_id):
+            print(f"Updating record for {student['name']}")
+            new_name = input("Enter new name (leave blank to keep current): ").strip()
+            new_age = input("Enter new age (leave blank to keep current): ").strip()
+            new_course = input("Enter new course (leave blank to keep current): ").strip()
+
+            if new_name:
+                validate_name(new_name)
+                student["name"] = new_name
+            if new_age.isdigit():
+                student["age"] = int(new_age)
+            if new_course:
+                validate_course(new_course)
+                student["course"] = new_course
+
+            save_students()
+            print(" Student record updated successfully!")
+            return
+    print("Student not found.")
+
+
+# ---------- Menu ----------
+def display_menu():
+    print("\n---------- Student Information System ----------")
+    print("1. Add Student")
+    print("2. View Students")
+    print("3. Search Student")
+    print("4. Delete Student")
+    print("5. Update Student")
+    print("6. Show Statistics")
+    print("7. Exit")
+    print("------------------------------------------------")
