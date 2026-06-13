@@ -1,6 +1,6 @@
 import re from datetime
 import datetime
-# ---------- Core Operations ----------
+#--------Core operations---------
 def add_student():
     name = input("Enter student name : ").strip()
     studentid = input("Enter student ID : ").strip()
@@ -94,20 +94,20 @@ def update_student():
             print(" Student record updated successfully!")
             return
     print("Student not found.")
-def show_statistics():
-    if not students:
-        print("No records to analyze.")
-        return
-    avg_age = sum(s["age"] for s in students) / len(students)
-    print(f" Total Students: {len(students)}")
-    print(f"Average Age: {avg_age:.2f}")
-    courses = {}
-    for s in students:
-        courses[s["course"]] = courses.get(s["course"], 0) + 1
-    print("Students per Course:")
-    for course, count in courses.items():
-        print(f"   {course}: {count}")
 
+def show_statistics():
+    if not students:
+        print("No records to analyze.")
+        return
+    avg_age = sum(s["age"] for s in students) / len(students)
+    print(f" Total Students: {len(students)}")
+    print(f"Average Age: {avg_age:.2f}")
+    courses = {}
+    for s in students:
+        courses[s["course"]] = courses.get(s["course"], 0) + 1
+    print("Students per Course:")
+    for course, count in courses.items():
+        print(f"   {course}: {count}")
 
 # ---------- Menu ----------
 def display_menu():
