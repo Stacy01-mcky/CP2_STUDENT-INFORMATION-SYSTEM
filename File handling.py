@@ -1,4 +1,4 @@
-
+from constants import FILE_NAME, students
 # ---------- Constants ----------
 FILE_NAME = "students.txt"
 students = []
